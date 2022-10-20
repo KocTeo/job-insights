@@ -1,6 +1,7 @@
 from functools import lru_cache
 import csv
 
+
 @lru_cache
 def read(path) -> list:
     try:
@@ -13,4 +14,3 @@ def read(path) -> list:
         print("Arquivo não encontrado")
 
     return []
-    

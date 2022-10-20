@@ -1,5 +1,6 @@
 from jobs import read
 
+
 def get_unique_job_types(path):
     jobs_list = read(path)
 
@@ -57,7 +58,7 @@ def get_max_salary(path):
             all_salary.append(int(job["max_salary"]))
 
     highest_salary = max(all_salary)
-    
+
     return highest_salary
 
 
@@ -71,7 +72,7 @@ def get_min_salary(path):
             all_salary.append(int(job["min_salary"]))
 
     lowest_salary = min(all_salary)
-    
+
     return lowest_salary
 
 
