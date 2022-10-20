@@ -1,5 +1,5 @@
 from functools import lru_cache
-
+import csv
 
 @lru_cache
 def read(path):
@@ -15,4 +15,17 @@ def read(path):
     list
         List of rows as dicts
     """
-    return []
+
+
+    try:
+        with open(path, encoding="utf-8") as file:
+            jobs_reader = csv.DictReader(file, delimiter=",", quotechar='"')
+
+            jobs = [job for job in jobs_reader]
+
+            return jobs
+
+
+    except FileNotFoundError as exc:
+        print("Arquivo não encontrado")
+    
