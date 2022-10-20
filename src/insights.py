@@ -54,7 +54,7 @@ def get_max_salary(path):
 
     for job in jobs_list:
         if job["max_salary"] != '':
-            all_salary.append(job["max_salary"])
+            all_salary.append(int(job["max_salary"]))
 
     highest_salary = max(all_salary)
     
@@ -62,21 +62,17 @@ def get_max_salary(path):
 
 
 def get_min_salary(path):
-    """Get the minimum salary of all jobs
+    jobs_list = read(path)
 
-    Must call `read`
+    all_salary = list()
 
-    Parameters
-    ----------
-    path : str
-        Must be passed to `read`
+    for job in jobs_list:
+        if job["min_salary"] != '':
+            all_salary.append(int(job["min_salary"]))
 
-    Returns
-    -------
-    int
-        The minimum salary paid out of all job opportunities
-    """
-    pass
+    lowest_salary = min(all_salary)
+    
+    return lowest_salary
 
 
 def matches_salary_range(job, salary):
