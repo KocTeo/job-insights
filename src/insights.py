@@ -49,12 +49,14 @@ def filter_by_industry(jobs, industry):
 
 
 def get_max_salary(path):
+    # usar isdigit antes do append
+    # dúvida do Halister no Slack
     jobs_list = read(path)
 
     max_salary_list = list()
 
     for job in jobs_list:
-        if job["max_salary"] != '':
+        if job["max_salary"].isdigit():
             max_salary_list.append(int(job["max_salary"]))
 
     highest_salary = max(max_salary_list)
@@ -68,7 +70,7 @@ def get_min_salary(path):
     min_salary_list = list()
 
     for job in jobs_list:
-        if job["min_salary"] != '':
+        if job["min_salary"].isdigit():
             min_salary_list.append(int(job["min_salary"]))
 
     lowest_salary = min(min_salary_list)
@@ -77,20 +79,21 @@ def get_min_salary(path):
 
 
 def matches_salary_range(job, salary):
-    max_is_int = type(job["max_salary"]) is not int
-    min_is_int = type(job["min_salary"]) is not int
+    max_salary, min_salary = job
+    max_is_int = type(max_salary) is int
+    min_is_int = type(min_salary) is int
 
-    if "min_salary" not in job or "max_salary" not in job:
+    if job["max_salary"] is False or job["min_salary"] is False:
         raise ValueError("Sálario mínimo e máximo precisam ser informados")
 
     if max_is_int or min_is_int:
-        ValueError("max_salary e min_salary precisa ser números")
+        raise ValueError("max_salary e min_salary precisa ser números")
 
-    if job["min_salary"] > job["max_salary"]:
-        ValueError("O valor mínimo precisa ser menor que o máximo")
+    if  max_salary <= min_salary:
+        raise ValueError("O valor mínimo precisa ser menor que o máximo")
 
     if type(salary) is not int:
-        ValueError("O sálario precisa ser um número")
+        raise ValueError("O sálario precisa ser um número")
 
     return True if job["min_salary"] <= salary <= job["max_salary"] else False
 
