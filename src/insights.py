@@ -75,33 +75,38 @@ def get_min_salary(path):
 
 
 def matches_salary_range(job, salary):
-    max_salary, min_salary = job
-    max_is_int = type(max_salary) is int
-    min_is_int = type(min_salary) is int
+    exist = "max_salary" in job and "min_salary" in job
 
-    if job["max_salary"] is False or job["min_salary"] is False:
+    if not exist:
         raise ValueError("Sálario mínimo e máximo precisam ser informados")
 
-    if max_is_int or min_is_int:
+    max_salary = str(job["max_salary"])
+    min_salary = str(job["min_salary"])
+
+    max_salary_is_number = max_salary.isdigit()
+    min_salary_is_number = min_salary.isdigit()
+
+    if not max_salary_is_number and min_salary_is_number:
         raise ValueError("max_salary e min_salary precisa ser números")
 
-    if  max_salary <= min_salary:
+    if int(max_salary) < int(min_salary):
         raise ValueError("O valor mínimo precisa ser menor que o máximo")
 
     if type(salary) is not int:
         raise ValueError("O sálario precisa ser um número")
 
-    return True if job["min_salary"] <= salary <= job["max_salary"] else False
+    return True if int(min_salary) <= salary <= int(max_salary) else False
 
 
 def filter_by_salary_range(jobs, salary):
-    jobs_list = read(jobs)
-
     jobs_filtered_by_salary_range = list()
 
-    for job in jobs_list:
+    for job in jobs:
+        data = {
+            'min_salary': job["min_salary"], 'max_salary': job["max_salary"]
+        }
         try:
-            check_salary_in_range = matches_salary_range(job, salary)
+            check_salary_in_range = matches_salary_range(data, salary)
             if check_salary_in_range:
                 jobs_filtered_by_salary_range.append(job)
         except ValueError:
